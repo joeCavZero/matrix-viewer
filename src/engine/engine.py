@@ -1,6 +1,7 @@
 import pygame
 import sys
 from settings import *
+from engine.managers.font_manager import FontManager
 
 
 class Engine:
@@ -17,15 +18,19 @@ class Engine:
         self.scenes_list = []
         self.scene = None
         self.canvas_scale = 1
+        self.font_manager = FontManager()
     
     def _init_core(self):
         pygame.init()
-        
+        pygame.font.init()
+
     def run(self):
+        self.font_manager.load_sysfont( "arial-button", "Arial", 30 )
+        self.font_manager.load_sysfont( "arial-title", "Arial", 80 )
         self.running = True
 
-        from engine.scene.menu import MenuScene
-        self.scene = MenuScene(self)
+        from engine.scene.views.menu import MenuScene
+        self.shift_scene( MenuScene(self) )
 
         while self.running:
             self._handle_events()
@@ -45,8 +50,10 @@ class Engine:
     def _render(self):
         self.window.fill( (0,0,0) )
         self.canvas.fill( (25,25,25) )
-
+        
+        
         self.scene.render( self.canvas )
+        self._render_border()
         self._render_canvas()
         pygame.display.flip()
 
@@ -77,7 +84,29 @@ class Engine:
             ( diff_x//2 , diff_y//2)
         )
 
+    def _render_border( self ):
+        BORDER_COLOR = (255,255,255)
+        BORDER_WIDTH = 10
+        data = (
+            (0,0, CANVAS_WIDTH, BORDER_WIDTH),
+            (0,0, BORDER_WIDTH, CANVAS_HEIGHT),
+            (0, CANVAS_HEIGHT-BORDER_WIDTH, CANVAS_WIDTH, BORDER_WIDTH),
+            (CANVAS_WIDTH-BORDER_WIDTH, 0, BORDER_WIDTH, CANVAS_HEIGHT)
+        )
+        for rect in data:
+            pygame.draw.rect( self.canvas, BORDER_COLOR, rect )
+
     def _close(self):
         pygame.quit()
         sys.exit()
 
+    from engine.scene.scene import Scene
+    def shift_scene(self, scene: Scene):
+        self.scenes_list.append( scene )
+        self.scene = self.scenes_list[-1]
+
+
+    def back_scene(self):
+        if len(self.scenes_list) > 1:
+            self.scene = self.scenes_list[-2]
+            self.scenes_list.pop(-1)

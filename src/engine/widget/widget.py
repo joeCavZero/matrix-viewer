@@ -4,15 +4,16 @@ import pygame.math as math
 from settings import *
 
 class Widget:
-    from engine.engine import Engine
-    def __init__(self, x: float, y: float, width: float, height: float, engine: Engine ):
-        self.position = math.Vector2(x, y)
+    def __init__(self, size: tuple[float,float], width: float, height: float, engine ):
+        self.position = math.Vector2(size[0],size[1])
         self.size = math.Vector2(width, height)
-        self.engine = engine
+        from engine.engine import Engine
+        self.engine: Engine = engine
     
     def update(self):
         pass
     def is_hover(self) -> bool:
+
         mouse_pos = pygame.mouse.get_pos()
 
         scale = self.engine.canvas_scale
@@ -27,3 +28,9 @@ class Widget:
 
     def render(self, canvas: pygame.Surface):
         pass
+    def get_rect(self) -> pygame.Rect:
+        return pygame.Rect(self.position.x, self.position.y, self.size.x, self.size.y)
+    
+    def center(self) -> "Widget":
+        self.position.x = self.engine.window.get_width()//2 - self.size.x//2
+        return self 
