@@ -1,13 +1,15 @@
-from engine.scene.scene import Scene
+from src.engine.scene.scene import Scene
 import pygame
 
 class MenuScene( Scene ):
     def __init__(self, engine):
         super().__init__(engine)
 
-        from engine.widget.buttons.redirect_button import RedirectButton
+        from src.engine.widget.buttons.redirect_button import RedirectButton
         self.add_widgets( 
-            RedirectButton((0,200), "MATRIZ TRIANGULAR", "to_triangle_matrix_menu", self.engine).center() 
+            RedirectButton((0,200), "MATRIZ TRIANGULAR", "to_triangle_matrix_menu", self.engine).center(),
+            RedirectButton((0,270), "CREDITOS", "to_credits", self.engine).center() 
+        
         )
         
     def render(self, canvas: pygame.Surface):

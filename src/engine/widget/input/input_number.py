@@ -1,4 +1,4 @@
-from engine.widget.widget import Widget
+from src.engine.widget.widget import Widget
 import pygame
 
 NUMBER_KEYS =[
@@ -29,7 +29,7 @@ KEYS_TO_NUMBERS = {
 PADDING = 10
 
 class InputNumber( Widget ):
-    from engine.engine import Engine
+    from src.engine.engine import Engine
     def __init__(self, position: tuple[float, float], engine):
         super().__init__(position, (200, 50), engine)
         self._value = "0"
@@ -38,6 +38,9 @@ class InputNumber( Widget ):
     def update(self):
         if self.is_hover() and pygame.mouse.get_just_released()[0]:
             self.engine.scene.selected_input = self
+        if not self.is_hover() and pygame.mouse.get_just_released()[0]:
+            if hasattr(self.engine.scene, "selected_input") and self.engine.scene.selected_input == self:
+                self.engine.scene.selected_input = None
         
         # existe um momento em que a scene não é main o menu de matriz triangular, então é necessário verificar se o atributo existe para não bugar
         if hasattr(self.engine.scene, "selected_input") and self.engine.scene.selected_input == self:
@@ -51,7 +54,6 @@ class InputNumber( Widget ):
             for k in NUMBER_KEYS:
                 if keys_pressed[k]:
                     self._value += KEYS_TO_NUMBERS[k]
-                    print("numero digitado")
 
         else:
             self._color = pygame.color.Color(255,255,255)
@@ -60,6 +62,18 @@ class InputNumber( Widget ):
             canvas,
             self._color,
             self.get_rect()
+        )
+
+        pygame.draw.rect(
+            canvas,
+            (0,0,0),
+            (
+                self.position.x+2,
+                self.position.y + self.size.y - 4,
+                self.size.x-4,
+                2
+            ),
+            
         )
         
         font = self.engine.font_manager.get_font("arial-button")
@@ -71,4 +85,6 @@ class InputNumber( Widget ):
         )
 
     def get_value(self)->int:
+        if self._value == "":
+            return 0
         return int(self._value)

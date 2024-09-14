@@ -1,8 +1,8 @@
 import pygame
-from engine.widget.widget import Widget
+from src.engine.widget.widget import Widget
 
 class Scene:
-    #from engine.engine import Engine
+    #from src.engine.engine import Engine
     def __init__(self, engine ):
         self.engine = engine
         self.widgets: list[Widget] = []

@@ -1,6 +1,6 @@
-from engine.widget.buttons.button import Button
-from engine.engine import Engine
-from engine.scene.views.triangle_matrix import TriangleMatrixScene
+from src.engine.widget.buttons.button import Button
+from src.engine.engine import Engine
+from src.engine.scene.views.triangle_matrix import TriangleMatrixScene
 import pygame
 
 class ConstructTriangularMatrixButton(Button):

@@ -1,7 +1,7 @@
 import pygame
 import sys
-from settings import *
-from engine.managers.font_manager import FontManager
+from src.settings import *
+from src.engine.managers.font_manager import FontManager
 
 
 class Engine:
@@ -17,16 +17,14 @@ class Engine:
         self.running = False
         self.scenes_list = []
 
-        from engine.scene.scene import Scene
+        from src.engine.scene.scene import Scene
         self.scene: Scene = None
         self.canvas_scale = 1
         self.font_manager = FontManager()
         self.events: list[pygame.Event] = []
 
-        #FUNNY
-        self.ball = Ball( (CANVAS_WIDTH//2, CANVAS_HEIGHT//2) )
-        self.paddle = Paddle( [CANVAS_WIDTH//2, CANVAS_HEIGHT-20], self.ball )
-    
+        self.background = Background()
+
     def _init_core(self):
         pygame.init()
         pygame.font.init()
@@ -38,7 +36,7 @@ class Engine:
         
         self.running = True
 
-        from engine.scene.views.menu import MenuScene
+        from src.engine.scene.views.menu import MenuScene
         self.shift_scene( MenuScene(self) )
 
         while self.running:
@@ -56,17 +54,16 @@ class Engine:
                 self.running = False
 
     def _update(self):
-        self.ball.update()
-        self.paddle.update()
+        self.background.update()
         self.scene.update()
     
     def _render(self):
         self.window.fill( (0,0,0) )
-        self.canvas.fill( (25,25,25) )
+        self.canvas.fill( (0,0,0) )
         
-        self.ball.render( self.canvas )
-        self.paddle.render( self.canvas )
+        self.background.render( self.canvas )
         self.scene.render( self.canvas )
+
         self._render_border()
         self._render_canvas()
         pygame.display.flip()
@@ -113,7 +110,7 @@ class Engine:
         pygame.quit()
         sys.exit()
 
-    from engine.scene.scene import Scene
+    from src.engine.scene.scene import Scene
     def shift_scene(self, scene: Scene):
         self.scenes_list.append( scene )
         self.scene = self.scenes_list[-1]
@@ -123,37 +120,33 @@ class Engine:
         if len(self.scenes_list) > 1:
             self.scene = self.scenes_list[-2]
             self.scenes_list.pop(-1)
-
-class Ball:
-    def __init__(self, position ):
-        self.position = position
-        self.direction = (4,4)
-        self.radius = 15
-
-    def render(self, canvas):
-        pygame.draw.circle( canvas, FUNNY_COLOR, self.position, self.radius )
-
-    def update(self):
-        self.position = (
-            self.position[0] + self.direction[0],
-            self.position[1] + self.direction[1]
-        )
-
-        if self.position[0] < self.radius+BORDER_THICKNES or self.position[0] > CANVAS_WIDTH - self.radius-BORDER_THICKNES:
-            self.direction = ( -self.direction[0], self.direction[1] )
-        if self.position[1] < self.radius+BORDER_THICKNES or self.position[1] > CANVAS_HEIGHT - self.radius -BORDER_THICKNES:
-            self.direction = ( self.direction[0], -self.direction[1] )
-
-class Paddle:
-    def __init__(self, position, ball: Ball):
-        self.position = position
-        self.ball = ball
-        self.size = (100, 20)
     
+class Background:
+    def __init__(self):
+        self.images = [
+            BackgroundImage( [0,0] ),
+            BackgroundImage( [0,-CANVAS_HEIGHT] )
+        ]
     def render(self, canvas):
-        pygame.draw.rect( canvas, FUNNY_COLOR, (self.position, self.size) )
-
+        for img in self.images:
+            img.render(canvas)
     def update(self):
-        if self.ball.position[1] > CANVAS_HEIGHT//2:
-            self.position[0] += (self.ball.position[0] - self.position[0]) / 10
+        for img in self.images:
+            img.update()
+
+class BackgroundImage:
+    def __init__(self, pos: list[float,float]):
+        self.position = pos
+        self.image = pygame.image.load( "assets/background.jpg" )
+        self.image = pygame.transform.scale( self.image, CANVAS_SIZE )
+        self.image.set_alpha( 55 )
+    def render(self, canvas: pygame.Surface):
+        canvas.blit( 
+            self.image, 
+            self.position 
+        )
+    def update(self):
         
+        self.position[1] += 1
+        if self.position[1] >= CANVAS_HEIGHT:
+            self.position[1] = -CANVAS_HEIGHT

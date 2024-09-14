@@ -1,6 +1,6 @@
 import pygame
-from engine.widget.widget import Widget
-from engine.engine import Engine
+from src.engine.widget.widget import Widget
+from src.engine.engine import Engine
 
 PADDING = 10
 

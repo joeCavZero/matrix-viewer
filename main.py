@@ -1,4 +1,4 @@
-from engine.engine import Engine
+from src.engine.engine import Engine
 def main():
     
     eng = Engine()
