@@ -39,7 +39,7 @@ class TriangularMatrixWidget( Widget ):
                     self.moved = True
                     
                 if dragging:
-                    SENSIBILITY = 2
+                    SENSIBILITY = 10
                     current_mouse_pos = pygame.mouse.get_pos()
                     
                     self.inter_pos.x += pygame.math.clamp(current_mouse_pos[0] - self._last_mouse_pos[0], -SENSIBILITY, SENSIBILITY)
