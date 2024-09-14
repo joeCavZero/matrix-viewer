@@ -4,9 +4,9 @@ import pygame.math as math
 from settings import *
 
 class Widget:
-    def __init__(self, size: tuple[float,float], width: float, height: float, engine ):
-        self.position = math.Vector2(size[0],size[1])
-        self.size = math.Vector2(width, height)
+    def __init__(self, position: tuple[float,float], size: tuple[float,float], engine ):
+        self.position = math.Vector2(position[0],position[1])
+        self.size = math.Vector2(size[0], size[1])
         from engine.engine import Engine
         self.engine: Engine = engine
     

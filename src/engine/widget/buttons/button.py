@@ -6,8 +6,8 @@ PADDING = 10
 
 
 class Button(Widget):
-    def __init__(self, size: tuple[float,float], width: float, height: float, text: str, engine: Engine):
-        super().__init__(size, width, height, engine )
+    def __init__(self, position: tuple[float,float], size: tuple[float,float], text: str, engine: Engine):
+        super().__init__(position, size, engine )
         self.text = text
         self.color = pygame.color.Color(0,0,0)
 

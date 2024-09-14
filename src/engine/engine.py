@@ -95,7 +95,7 @@ class Engine:
         )
         for rect in data:
             pygame.draw.rect( self.canvas, BORDER_COLOR, rect )
-
+        
     def _close(self):
         pygame.quit()
         sys.exit()
