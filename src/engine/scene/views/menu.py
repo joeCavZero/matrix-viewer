@@ -7,7 +7,7 @@ class MenuScene( Scene ):
 
         from engine.widget.buttons.redirect_button import RedirectButton
         self.add_widgets( 
-            RedirectButton((0,200), "montar matrix triangular", "to_triangle_matrix_menu", self.engine).center() 
+            RedirectButton((0,200), "MATRIZ TRIANGULAR", "to_triangle_matrix_menu", self.engine).center() 
         )
         
     def render(self, canvas: pygame.Surface):

@@ -10,10 +10,10 @@ class TriangleMatrixMenuScene( Scene ):
         from engine.widget.buttons.redirect_button import RedirectButton
         from engine.widget.input.input_number import InputNumber
 
-        self.n_input = InputNumber((0,100), self.engine).center()
+        self.n_input: InputNumber = InputNumber((0,100), self.engine).center()
 
         self.add_widgets( 
             RedirectButton((20,20), "voltar", "back", self.engine),
             self.n_input,
-            ConstructTriangularMatrixButton((0,200), "montar matrix triangular", self.engine).center()
+            ConstructTriangularMatrixButton((0,200), "MONTAR MATRIZ TRIANGULAR", self.engine).center()
         )

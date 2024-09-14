@@ -5,7 +5,7 @@ class Scene:
     #from engine.engine import Engine
     def __init__(self, engine ):
         self.engine = engine
-        self.widgets = []
+        self.widgets: list[Widget] = []
     
     def update(self):
         for wid in self.widgets:

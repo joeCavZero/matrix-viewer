@@ -11,6 +11,6 @@ class ConstructTriangularMatrixButton(Button):
         self.update_color_on_hover()
         if self.is_hover() and pygame.mouse.get_just_released()[0]:
 
-            n = self.engine.scene.n_input.get_value()
+            n: int = self.engine.scene.n_input.get_value()
 
             self.engine.shift_scene(TriangleMatrixScene(n,self.engine))

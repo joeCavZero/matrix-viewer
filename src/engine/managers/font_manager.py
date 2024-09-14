@@ -8,5 +8,5 @@ class FontManager:
         if name not in self._fonts:
             self._fonts[name] = pygame.font.SysFont(font, size)
     
-    def get_font(self, name: str):
+    def get_font(self, name: str)-> pygame.Font:
         return self._fonts[name] if name in self._fonts else None
