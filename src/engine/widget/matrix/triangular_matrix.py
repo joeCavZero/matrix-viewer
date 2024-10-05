@@ -4,6 +4,64 @@ import pygame
 import numpy as np
 
 PADDING = 50
+
+from src.engine.widget.matrix.matrix_viewer import MatrixViewer
+class TriangularMatrixWidget( MatrixViewer ):
+    from src.engine.engine import Engine
+    def __init__(self, position: tuple[float, float], size: tuple[float,float], n: int, type: str, engine: Engine):
+        self.n = n
+        self.type = type
+        super().__init__( position, size, None, n,n, engine )
+        
+    
+    def setup_matrix(self):
+        for y in range(self.n):
+            for x in range(self.n):
+                if self.type == "upper":
+                    if x > y:
+                        self.matrix[ y*self.n + x ] = 0
+                    else:
+                        self.matrix[ y*self.n + x ] = randint(1,100)
+                if self.type == "lower":
+                    if x < y:
+                        self.matrix[ y*self.n + x ] = 0
+                    else:
+                        self.matrix[ y*self.n + x ] = randint(1,100)
+    
+    def _render_area(self):
+        font_size = self.font.get_height()*2
+        self.area.fill( (0,0,0) )
+
+        num_index = 0
+        for num in self.matrix:
+            text = None
+            if num == 0:
+                text = self.font.render(str(num), True, (255,255,255),bgcolor=(255,0,0))
+            else:
+                text = self.font.render(str(num), True, (255,255,255))
+
+            aux_x = num_index % self.cols
+            aux_y = num_index // self.cols
+
+            text = pygame.transform.scale(
+                text,
+                (text.get_width()*self.zoom, text.get_height()*self.zoom)
+            )
+
+            area_x = self.inter_pos.x + aux_x*font_size*self.zoom
+            area_y = self.inter_pos.y + aux_y*font_size*self.zoom
+            if (area_x < self.size[0] and area_x > -font_size*self.zoom) and (area_y < self.size[1] and area_y > -font_size*self.zoom):
+                self.area.blit(
+                    text,
+                    (
+                        area_x,
+                        area_y
+                    )
+                )
+            num_index += 1
+    
+        
+"""
 class TriangularMatrixWidget( Widget ):
     from src.engine.engine import Engine
     def __init__(self, position: tuple[float, float], size: tuple[float,float], n: int, type: str, engine: Engine):
@@ -20,7 +78,7 @@ class TriangularMatrixWidget( Widget ):
         self.area = pygame.Surface( (self.size[0], self.size[1]) )
         self.border_color = (255,255,255)
 
-        self._setup_matrix()
+        self.setup_matrix()
 
         self._last_mouse_pos = (0,0)
     
@@ -39,7 +97,7 @@ class TriangularMatrixWidget( Widget ):
                     self.moved = True
                     
                 if dragging:
-                    SENSIBILITY = 10
+                    SENSIBILITY = 2
                     current_mouse_pos = pygame.mouse.get_pos()
                     
                     self.inter_pos.x += pygame.math.clamp(current_mouse_pos[0] - self._last_mouse_pos[0], -SENSIBILITY, SENSIBILITY)
@@ -48,7 +106,7 @@ class TriangularMatrixWidget( Widget ):
             self.border_color = (255,255,255)
         self._last_mouse_pos = pygame.mouse.get_pos()
         
-    def _setup_matrix(self):
+    def setup_matrix(self):
         for y in range(self.n):
             for x in range(self.n):
                 if self.type == "upper":
@@ -97,7 +155,7 @@ class TriangularMatrixWidget( Widget ):
                 text = self.font.render(str(num), True, (255,255,255))
 
             aux_x = num_index % self.n
-            aux_y = ux_y = num_index // self.n
+            aux_y = num_index // self.n
 
             text = pygame.transform.scale(
                 text,
@@ -115,3 +173,4 @@ class TriangularMatrixWidget( Widget ):
                     )
                 )
             num_index += 1
+"""

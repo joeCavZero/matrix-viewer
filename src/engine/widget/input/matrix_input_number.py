@@ -28,11 +28,11 @@ KEYS_TO_NUMBERS = {
 
 PADDING = 10
 
-class InputNumber( Widget ):
+class MatrixInputNumber( Widget ):
     from src.engine.engine import Engine
     def __init__(self, position: tuple[float, float], engine):
-        super().__init__(position, (200, 50), engine)
-        self._value = ""
+        super().__init__(position, (100, 50), engine)
+        self._value = "0"
         self._color = pygame.color.Color(255,255,255)
     
     def update(self):

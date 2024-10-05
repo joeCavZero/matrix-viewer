@@ -2,6 +2,8 @@ from src.engine.widget.widget import Widget
 import pygame
 
 NUMBER_KEYS =[
+    pygame.K_MINUS,
+    pygame.K_PERIOD,
     pygame.K_0, 
     pygame.K_1, 
     pygame.K_2, 
@@ -14,6 +16,8 @@ NUMBER_KEYS =[
     pygame.K_9
 ]
 KEYS_TO_NUMBERS = {
+    pygame.K_MINUS: "-",
+    pygame.K_PERIOD: ".",
     pygame.K_0: "0",
     pygame.K_1: "1",
     pygame.K_2: "2",
@@ -28,10 +32,10 @@ KEYS_TO_NUMBERS = {
 
 PADDING = 10
 
-class InputNumber( Widget ):
+class InputFloat( Widget ):
     from src.engine.engine import Engine
     def __init__(self, position: tuple[float, float], engine):
-        super().__init__(position, (200, 50), engine)
+        super().__init__(position, (100, 50), engine)
         self._value = ""
         self._color = pygame.color.Color(255,255,255)
     
@@ -84,7 +88,8 @@ class InputNumber( Widget ):
             (self.position.x+PADDING, self.position.y+PADDING)
         )
 
-    def get_value(self)->int:
+    def get_value(self)->float:
         if self._value == "":
-            return 0
-        return int(self._value)
+            return 0.0
+        
+        return float(self._value)

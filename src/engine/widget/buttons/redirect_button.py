@@ -2,8 +2,10 @@ import pygame
 from src.engine.widget.buttons.button import Button
 from src.engine.scene.scene import Scene
 from src.engine.engine import Engine
+
 from src.engine.scene.views.triangle_matrix import TriangleMatrixScene
 from src.engine.scene.views.triangle_matrix_menu import TriangleMatrixMenuScene
+from src.engine.scene.views.scaled_matrix_menu import ScaledMatrixMenuScene
 from src.engine.scene.views.credits import CreditsScene
 class RedirectButton(Button):
     def __init__(self, position: tuple[float,float],text: str, type: str, engine: Engine):
@@ -20,6 +22,8 @@ class RedirectButton(Button):
                     self.engine.shift_scene(TriangleMatrixMenuScene(self.engine))
                 case "to_triangle_matrix":
                     self.engine.shift_scene(TriangleMatrixScene(self.engine))
+                case "to_scaled_matrix_menu":
+                    self.engine.shift_scene(ScaledMatrixMenuScene(self.engine))
                 case "to_credits":
                     self.engine.shift_scene(CreditsScene(self.engine))
         

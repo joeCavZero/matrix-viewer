@@ -1,6 +1,7 @@
 import pygame
 from src.engine.widget.widget import Widget
 from src.engine.engine import Engine
+from src.settings import *
 
 PADDING = 10
 
@@ -17,7 +18,13 @@ class Button(Widget):
 
         self.size = pygame.math.Vector2(self._ren_text.get_width() + PADDING*2, self._ren_text.get_height() + PADDING*2)
         
+    
+
+
+
         
+
+
     def update_color_on_hover(self):
         if self.is_hover():
             self.color = pygame.color.Color(0,255,0)
@@ -39,6 +46,3 @@ class Button(Widget):
             (self.position.x+PADDING, self.position.y+PADDING)
         )
         
-    
-        
-

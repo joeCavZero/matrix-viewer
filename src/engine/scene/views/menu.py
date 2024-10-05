@@ -8,7 +8,8 @@ class MenuScene( Scene ):
         from src.engine.widget.buttons.redirect_button import RedirectButton
         self.add_widgets( 
             RedirectButton((0,200), "MATRIZ TRIANGULAR", "to_triangle_matrix_menu", self.engine).center(),
-            RedirectButton((0,270), "CREDITOS", "to_credits", self.engine).center() 
+            RedirectButton((0,270), "MATRIZ ESCALONADA", "to_scaled_matrix_menu", self.engine).center(),
+            RedirectButton((0,340), "CREDITOS", "to_credits", self.engine).center() 
         
         )
         
